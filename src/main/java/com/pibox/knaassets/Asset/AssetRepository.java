@@ -1,14 +1,16 @@
 package com.pibox.knaassets.Asset;
 
-import com.pibox.knaassets.enums.AssetQualityConditionEnum;
-import com.pibox.knaassets.enums.AssetStatusEnum;
-import com.pibox.knaassets.enums.AssetTypeEnum;
+import com.pibox.knaassets.Asset.enums.AssetQualityConditionEnum;
+import com.pibox.knaassets.Asset.enums.AssetStatusEnum;
+import com.pibox.knaassets.Asset.enums.AssetTypeEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+@Repository
 public interface AssetRepository extends JpaRepository<AssetEntity, UUID> {
 
     AssetEntity getAssetEntityBySerialNumber(String serialNumber);

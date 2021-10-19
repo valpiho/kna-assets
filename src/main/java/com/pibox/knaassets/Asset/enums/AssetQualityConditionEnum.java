@@ -1,4 +1,4 @@
-package com.pibox.knaassets.enums;
+package com.pibox.knaassets.Asset.enums;
 
 public enum AssetQualityConditionEnum {
 

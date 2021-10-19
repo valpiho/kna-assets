@@ -1,8 +1,8 @@
 package com.pibox.knaassets.Asset;
 
-import com.pibox.knaassets.enums.AssetQualityConditionEnum;
-import com.pibox.knaassets.enums.AssetStatusEnum;
-import com.pibox.knaassets.enums.AssetTypeEnum;
+import com.pibox.knaassets.Asset.enums.AssetQualityConditionEnum;
+import com.pibox.knaassets.Asset.enums.AssetStatusEnum;
+import com.pibox.knaassets.Asset.enums.AssetTypeEnum;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -39,6 +39,9 @@ public class AssetEntity {
     @Column(name = "longDescription")
     private String longDescription;
 
+    @Column(name = "notes")
+    private String notes;
+
     @Column(name = "image_url")
     private String imageUrl;
 
@@ -67,8 +70,8 @@ public class AssetEntity {
     @Column(name = "last_audited_at")
     private Date lastAuditedAt;
 
-    @Column(name = "current_location")
-    private String currentLocation;   // TODO: update to entity
+    @Column(name = "location")
+    private String location;   // TODO: update to entity
 
     @Enumerated(EnumType.STRING)
     @Column(name = "current_status")

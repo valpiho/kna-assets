@@ -5,5 +5,6 @@ public enum AssetTypeEnum {
     INVENTORY,
     EQUIPMENT,
     MACHINERY,
-    PROPERTY
+    PROPERTY,
+    DIGITAL_PRODUCT
 }

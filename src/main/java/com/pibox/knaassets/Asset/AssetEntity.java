@@ -64,7 +64,7 @@ public class AssetEntity {
     private Date updatedAt;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "updated_at")
+    @Column(name = "last_audited_at")
     private Date lastAuditedAt;
 
     @Column(name = "current_location")

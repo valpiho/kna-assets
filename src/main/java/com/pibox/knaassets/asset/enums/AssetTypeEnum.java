@@ -1,4 +1,4 @@
-package com.pibox.knaassets.Asset.enums;
+package com.pibox.knaassets.asset.enums;
 
 public enum AssetTypeEnum {
 

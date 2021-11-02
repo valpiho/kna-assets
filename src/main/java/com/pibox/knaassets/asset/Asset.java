@@ -1,8 +1,8 @@
-package com.pibox.knaassets.Asset;
+package com.pibox.knaassets.asset;
 
-import com.pibox.knaassets.Asset.enums.AssetQualityConditionEnum;
-import com.pibox.knaassets.Asset.enums.AssetStatusEnum;
-import com.pibox.knaassets.Asset.enums.AssetTypeEnum;
+import com.pibox.knaassets.asset.enums.AssetQualityConditionEnum;
+import com.pibox.knaassets.asset.enums.AssetStatusEnum;
+import com.pibox.knaassets.asset.enums.AssetTypeEnum;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -17,12 +17,12 @@ import java.util.UUID;
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class AssetEntity {
+public class Asset {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false, updatable = false)
-    private UUID uuid;
+    @Column(name = "id", nullable = false, updatable = false)
+    private Long id;
 
     @Column(name = "serial_number", unique = true, nullable = false)
     private String serialNumber;
@@ -90,7 +90,7 @@ public class AssetEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        AssetEntity that = (AssetEntity) o;
-        return Objects.equals(uuid, that.uuid);
+        Asset that = (Asset) o;
+        return Objects.equals(id, that.id);
     }
 }

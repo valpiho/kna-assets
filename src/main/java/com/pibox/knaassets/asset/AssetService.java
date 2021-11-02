@@ -1,4 +1,4 @@
-package com.pibox.knaassets.Asset;
+package com.pibox.knaassets.asset;
 
 import org.springframework.stereotype.Service;
 
@@ -11,11 +11,11 @@ public class AssetService {
         this.assetRepository = assetRepository;
     }
 
-    public AssetEntity getAssetBySerialNumber(String serialNumber) {
+    public Asset getAssetBySerialNumber(String serialNumber) {
         return assetRepository.getAssetEntityBySerialNumber(serialNumber);
     }
 
-    public AssetEntity addAsset(AssetEntity assetEntity) {
-        return assetRepository.save(assetEntity);
+    public Asset addAsset(Asset asset) {
+        return assetRepository.save(asset);
     }
 }

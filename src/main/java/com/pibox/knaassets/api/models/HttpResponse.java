@@ -1,4 +1,4 @@
-package com.pibox.knaassets.models;
+package com.pibox.knaassets.api.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

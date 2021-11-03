@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Setter
 @ToString
 @RequiredArgsConstructor
-class PrimaryContact {
+public class PrimaryContact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

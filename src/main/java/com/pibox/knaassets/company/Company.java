@@ -26,6 +26,9 @@ public class Company {
     @Column(name = "title")
     private String title;
 
+    @Column(name = "vat_number", unique = true, nullable = false)
+    private String vatNumber;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "primary_contact_id", referencedColumnName = "id")
     private PrimaryContact primaryContact;

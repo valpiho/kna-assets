@@ -1,6 +1,7 @@
 package com.pibox.knaassets.company;
 
 import com.pibox.knaassets.company.enums.CompanyStatusEnum;
+import com.pibox.knaassets.company.enums.VendorType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -28,6 +29,13 @@ public class Company {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "primary_contact_id", referencedColumnName = "id")
     private PrimaryContact primaryContact;
+
+    @Column(name = "is_vendor")
+    private boolean isVendor;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "vendor_type")
+    private VendorType vendorType;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "shipping_address_id", referencedColumnName = "id")

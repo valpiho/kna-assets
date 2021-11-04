@@ -63,4 +63,14 @@ public class Company {
     @Enumerated(EnumType.STRING)
     @Column(name = "current_status")
     private CompanyStatusEnum currentStatus;
+
+    // TODO: List of Items
+
+    public boolean getIsVendor() {
+        return isVendor;
+    }
+
+    public void setIsVendor(boolean isVendor) {
+        this.isVendor = isVendor;
+    }
 }

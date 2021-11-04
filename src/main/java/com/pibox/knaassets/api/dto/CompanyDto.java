@@ -1,29 +1,30 @@
 package com.pibox.knaassets.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.pibox.knaassets.company.Address;
-import com.pibox.knaassets.company.PrimaryContact;
 import com.pibox.knaassets.company.enums.CompanyStatusEnum;
 import com.pibox.knaassets.company.enums.VendorType;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
+@Builder
 public class CompanyDto {
 
     private String title;
 
     private String vatNumber;
 
-    private PrimaryContact primaryContact;
+    private PrimaryContactDto primaryContact;
 
     private boolean isVendor;
 
     private VendorType vendorType;
 
-    private Address shippingAddress;
-    private Address billingAddress;
+    private AddressDto shippingAddress;
+
+    private AddressDto billingAddress;
 
     @JsonFormat(timezone = "Europe/Tallinn")
     private Date createdAt;

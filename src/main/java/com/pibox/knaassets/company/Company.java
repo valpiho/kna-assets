@@ -65,12 +65,4 @@ public class Company {
     private CompanyStatusEnum currentStatus;
 
     // TODO: List of Items
-
-    public boolean getIsVendor() {
-        return isVendor;
-    }
-
-    public void setIsVendor(boolean isVendor) {
-        this.isVendor = isVendor;
-    }
 }

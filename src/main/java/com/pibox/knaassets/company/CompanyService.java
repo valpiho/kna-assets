@@ -26,8 +26,8 @@ public class CompanyService {
         }
         newCompany.setVatNumber(company.getVatNumber());
         newCompany.setPrimaryContact(company.getPrimaryContact());
-        if (company.getIsVendor()) {
-            newCompany.setIsVendor(true);
+        if (company.isVendor()) {
+            newCompany.setVendor(true);
             newCompany.setVendorType(company.getVendorType());
         }
         newCompany.setShippingAddress(company.getShippingAddress());

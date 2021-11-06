@@ -2,7 +2,7 @@ package com.pibox.knaassets.exceptions;
 
 import com.pibox.knaassets.api.models.HttpResponse;
 import com.pibox.knaassets.exceptions.domain.ExistException;
-import org.aspectj.bridge.IMessage;
+import com.pibox.knaassets.exceptions.domain.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.error.ErrorController;
@@ -28,6 +28,7 @@ public class ExceptionHandling implements ErrorController {
         return createHttpResponse(HttpStatus.BAD_REQUEST, "Already exists");
     }
 
+    @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<HttpResponse> notFoundException() {
         return createHttpResponse(HttpStatus.NOT_FOUND, "Not found");
     }

@@ -6,14 +6,17 @@ import com.pibox.knaassets.company.enums.VendorType;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 @Data
 @Builder
 public class CompanyDto {
 
+    @NotBlank
     private String title;
 
+    @NotBlank
     private String vatNumber;
 
     private PrimaryContactDto primaryContact;

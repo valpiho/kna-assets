@@ -1,11 +1,13 @@
 package com.pibox.knaassets.company;
 
 import com.pibox.knaassets.exceptions.domain.ExistException;
+import com.pibox.knaassets.exceptions.domain.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class CompanyService {
@@ -21,7 +23,6 @@ public class CompanyService {
         Company newCompany = new Company();
         newCompany.setTitle(company.getTitle());
         if (companyRepository.findCompanyByVatNumber(company.getVatNumber()) != null) {
-            LOGGER.warn("Company was not created.");
             throw new ExistException("Company with VAT number: " + company.getVatNumber() + " is already exist");
         }
         newCompany.setVatNumber(company.getVatNumber());
@@ -37,5 +38,25 @@ public class CompanyService {
         companyRepository.save(newCompany);
         LOGGER.info("A new company was added successfully.");
         return newCompany;
+    }
+
+    public Company getCompanyById(Long id) throws NotFoundException {
+        Company company = companyRepository.findCompanyById(id);
+        if (company == null) {
+            throw new NotFoundException("Company with ID: " + id + " was not found");
+        }
+        return company;
+    }
+
+    public Company getCompanyByVatNumber(String vatNumber) throws NotFoundException {
+        Company company = companyRepository.findCompanyByVatNumber(vatNumber);
+        if (company == null) {
+            throw new NotFoundException("Company with VAT number: " + vatNumber + " was not found");
+        }
+        return company;
+    }
+
+    public List<Company> getAllCompanies() {
+        return companyRepository.findAll();
     }
 }

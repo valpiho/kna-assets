@@ -1,5 +1,6 @@
 package com.pibox.knaassets.company;
 
+import com.pibox.knaassets.company.enums.CompanyStatusEnum;
 import com.pibox.knaassets.exceptions.domain.ExistException;
 import com.pibox.knaassets.exceptions.domain.NotFoundException;
 import org.slf4j.Logger;
@@ -58,5 +59,15 @@ public class CompanyService {
 
     public List<Company> getAllCompanies() {
         return companyRepository.findAll();
+    }
+
+    public String deactivateCompany(Long id) throws NotFoundException {
+        Company company = companyRepository.findCompanyById(id);
+        if (company == null) {
+            throw new NotFoundException("Company with ID: " + id + " was not found");
+        }
+        company.setCurrentStatus(CompanyStatusEnum.NOT_AVAILABLE);
+        companyRepository.save(company);
+        return company.getTitle();
     }
 }

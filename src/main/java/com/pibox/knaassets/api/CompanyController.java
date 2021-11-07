@@ -51,6 +51,12 @@ public class CompanyController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpResponse> deactivateCompany(@PathVariable Long id) throws NotFoundException {
+        String companyTitle = companyService.deactivateCompany(id);
+        return response(HttpStatus.NO_CONTENT, "Company \"" + companyTitle + "\" was added successfully.\"");
+    }
+
     private ResponseEntity<HttpResponse> response(HttpStatus httpStatus, String message) {
         return new ResponseEntity<>(
                 new HttpResponse(httpStatus.value(), httpStatus, message),

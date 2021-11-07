@@ -7,6 +7,7 @@ import com.pibox.knaassets.api.mapper.CompanyMapper;
 import com.pibox.knaassets.company.enums.CompanyStatusEnum;
 import com.pibox.knaassets.company.enums.VendorType;
 import com.pibox.knaassets.exceptions.domain.ExistException;
+import com.pibox.knaassets.exceptions.domain.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -19,8 +20,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class CompanyServiceTest {
@@ -68,7 +68,7 @@ class CompanyServiceTest {
     }
 
     @Test
-    void willThrowExistError() {
+    void addCompanyWillThrowExistException() {
 
         Company company = companyMapper.toCompany(companyDto);
         given(companyRepository.findCompanyByVatNumber(anyString())).willReturn(company);
@@ -78,5 +78,55 @@ class CompanyServiceTest {
                 .hasMessageContaining("Company with VAT number: " + company.getVatNumber() + " is already exist");
 
         verify(companyRepository, never()).save(any());
+    }
+
+    @Test
+    void canGetCompanyById() throws NotFoundException {
+
+        Company company = companyMapper.toCompany(companyDto);
+        given(companyRepository.findCompanyById(anyLong())).willReturn(company);
+
+        companyService.getCompanyById(1L);
+
+        verify(companyRepository).findCompanyById(1L);
+    }
+
+    @Test
+    void getCompanyByIdWillThrowNotFoundException() {
+
+        given(companyRepository.findCompanyById(anyLong())).willReturn(null);
+
+        assertThatThrownBy(() -> companyService.getCompanyById(1L))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessageContaining("Company with ID: " + 1 + " was not found");
+    }
+
+    @Test
+    void canGetCompanyByVatNumber() throws NotFoundException {
+
+        Company company = companyMapper.toCompany(companyDto);
+        given(companyRepository.findCompanyByVatNumber(anyString())).willReturn(company);
+
+        companyService.getCompanyByVatNumber("EE12345678");
+
+        verify(companyRepository).findCompanyByVatNumber("EE12345678");
+    }
+
+    @Test
+    void getCompanyByVatNumberWillThrowNotFoundException() {
+
+        given(companyRepository.findCompanyByVatNumber(anyString())).willReturn(null);
+
+        assertThatThrownBy(() -> companyService.getCompanyByVatNumber("EE12345678"))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessageContaining("Company with VAT number: EE12345678 was not found");
+    }
+
+    @Test
+    void canGetAllCompanies() {
+
+        companyService.getAllCompanies();
+
+        verify(companyRepository).findAll();
     }
 }

@@ -24,13 +24,13 @@ public class ExceptionHandling implements ErrorController {
     private static final String INTERNAL_SERVER_ERROR_MSG = "An error occurred while processing the request";
 
     @ExceptionHandler(ExistException.class)
-    public ResponseEntity<HttpResponse> existException() {
-        return createHttpResponse(HttpStatus.BAD_REQUEST, "Already exists");
+    public ResponseEntity<HttpResponse> existException(ExistException exception) {
+        return createHttpResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<HttpResponse> notFoundException() {
-        return createHttpResponse(HttpStatus.NOT_FOUND, "Not found");
+    public ResponseEntity<HttpResponse> notFoundException(NotFoundException exception) {
+        return createHttpResponse(HttpStatus.NOT_FOUND, exception.getMessage());
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)

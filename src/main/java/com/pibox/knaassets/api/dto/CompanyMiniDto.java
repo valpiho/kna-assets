@@ -1,6 +1,5 @@
 package com.pibox.knaassets.api.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pibox.knaassets.company.enums.CompanyStatusEnum;
 import com.pibox.knaassets.company.enums.VendorType;
@@ -8,11 +7,10 @@ import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import java.util.Date;
 
 @Data
 @Builder
-public class CompanyDto {
+public class CompanyMiniDto {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
@@ -32,15 +30,6 @@ public class CompanyDto {
     private AddressDto shippingAddress;
 
     private AddressDto billingAddress;
-
-    @JsonFormat(timezone = "Europe/Tallinn")
-    private Date createdAt;
-
-    @JsonFormat(timezone = "Europe/Tallinn")
-    private Date updatedAt;
-
-    @JsonFormat(timezone = "Europe/Tallinn")
-    private Date removedAt;
 
     private CompanyStatusEnum currentStatus;
 }

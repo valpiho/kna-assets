@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class CompanyService {
@@ -21,24 +22,49 @@ public class CompanyService {
     }
 
     public Company addCompany(Company company) throws ExistException {
-        Company newCompany = new Company();
-        newCompany.setTitle(company.getTitle());
+        Company companyToAdd = new Company();
+        companyToAdd.setTitle(company.getTitle());
         if (companyRepository.findCompanyByVatNumber(company.getVatNumber()) != null) {
             throw new ExistException("Company with VAT number: " + company.getVatNumber() + " is already exist");
         }
-        newCompany.setVatNumber(company.getVatNumber());
-        newCompany.setPrimaryContact(company.getPrimaryContact());
+        companyToAdd.setVatNumber(company.getVatNumber());
+        companyToAdd.setPrimaryContact(company.getPrimaryContact());
         if (company.isVendor()) {
-            newCompany.setVendor(true);
-            newCompany.setVendorType(company.getVendorType());
+            companyToAdd.setVendor(true);
+            companyToAdd.setVendorType(company.getVendorType());
         }
-        newCompany.setShippingAddress(company.getShippingAddress());
-        newCompany.setBillingAddress(company.getBillingAddress());
-        newCompany.setCreatedAt(new Date());
-        newCompany.setCurrentStatus(company.getCurrentStatus());
-        companyRepository.save(newCompany);
-        LOGGER.info("A new company was added successfully.");
+        companyToAdd.setShippingAddress(company.getShippingAddress());
+        companyToAdd.setBillingAddress(company.getBillingAddress());
+        companyToAdd.setCurrentStatus(company.getCurrentStatus());
+        companyToAdd.setCreatedAt(new Date());
+        Company newCompany = companyRepository.save(companyToAdd);
+        LOGGER.info("A new company with ID: '" + newCompany.getId() + "' was added successfully.");
         return newCompany;
+    }
+
+    public Company updateCompany(Company company, Long id) throws NotFoundException, ExistException {
+        Company companyToUpdate = companyRepository.findCompanyById(id);
+        if (companyToUpdate == null) {
+            throw new NotFoundException("Company with ID: " + id + " was not found");
+        }
+        companyToUpdate.setTitle(company.getTitle());
+        if (companyRepository.findCompanyByVatNumber(company.getVatNumber()) != null &&
+                !Objects.equals(company.getVatNumber(), companyToUpdate.getVatNumber())) {
+            throw new ExistException("Company with VAT number: " + company.getVatNumber() + " is already exist");
+        }
+        companyToUpdate.setVatNumber(company.getVatNumber());
+        companyToUpdate.setPrimaryContact(company.getPrimaryContact());
+        if (company.isVendor()) {
+            companyToUpdate.setVendor(true);
+            companyToUpdate.setVendorType(company.getVendorType());
+        }
+        companyToUpdate.setShippingAddress(company.getShippingAddress());
+        companyToUpdate.setBillingAddress(company.getBillingAddress());
+        companyToUpdate.setCurrentStatus(company.getCurrentStatus());
+        companyToUpdate.setUpdatedAt(new Date());
+        Company updatedCompany = companyRepository.save(companyToUpdate);
+        LOGGER.info("A company with ID: '" + updatedCompany.getId() + "' was updated successfully.");
+        return updatedCompany;
     }
 
     public Company getCompanyById(Long id) throws NotFoundException {
@@ -67,7 +93,9 @@ public class CompanyService {
             throw new NotFoundException("Company with ID: " + id + " was not found");
         }
         company.setCurrentStatus(CompanyStatusEnum.NOT_AVAILABLE);
+        company.setRemovedAt(new Date());
         companyRepository.save(company);
+        LOGGER.info("A company with ID: '" + company.getId() + "' was achieved successfully.");
         return company.getTitle();
     }
 }

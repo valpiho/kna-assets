@@ -1,6 +1,7 @@
 package com.pibox.knaassets.api;
 
 import com.pibox.knaassets.api.dto.CompanyDto;
+import com.pibox.knaassets.api.dto.CompanyMiniDto;
 import com.pibox.knaassets.api.mapper.CompanyMapper;
 import com.pibox.knaassets.company.Company;
 import com.pibox.knaassets.company.CompanyService;
@@ -31,6 +32,13 @@ public class CompanyController {
     public ResponseEntity<HttpResponse> addCompany(@RequestBody CompanyDto companyDto) throws ExistException {
         Company newCompany = companyService.addCompany(companyMapper.toCompany(companyDto));
         return response(HttpStatus.CREATED, "A new company \"" + newCompany.getTitle() + "\" was added successfully.");
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<HttpResponse> updateCompany(@RequestBody CompanyMiniDto companyMiniDto,
+                                                      @PathVariable Long id) throws NotFoundException, ExistException {
+        Company updatedCompany = companyService.updateCompany(companyMapper.toCompany(companyMiniDto), id);
+        return response(HttpStatus.CREATED, "A company \"" + updatedCompany.getTitle() + "\" was updated successfully.");
     }
 
     @GetMapping()

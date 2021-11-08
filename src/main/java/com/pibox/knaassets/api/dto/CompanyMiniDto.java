@@ -21,15 +21,9 @@ public class CompanyMiniDto {
     @NotBlank
     private String vatNumber;
 
-    private PrimaryContactDto primaryContact;
-
     private boolean isVendor;
 
     private VendorType vendorType;
-
-    private AddressDto shippingAddress;
-
-    private AddressDto billingAddress;
 
     private CompanyStatusEnum currentStatus;
 }

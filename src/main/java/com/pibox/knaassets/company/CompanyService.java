@@ -53,13 +53,10 @@ public class CompanyService {
             throw new ExistException("Company with VAT number: " + company.getVatNumber() + " is already exist");
         }
         companyToUpdate.setVatNumber(company.getVatNumber());
-        companyToUpdate.setPrimaryContact(company.getPrimaryContact());
         if (company.isVendor()) {
             companyToUpdate.setVendor(true);
             companyToUpdate.setVendorType(company.getVendorType());
         }
-        companyToUpdate.setShippingAddress(company.getShippingAddress());
-        companyToUpdate.setBillingAddress(company.getBillingAddress());
         companyToUpdate.setCurrentStatus(company.getCurrentStatus());
         companyToUpdate.setUpdatedAt(new Date());
         Company updatedCompany = companyRepository.save(companyToUpdate);
@@ -81,6 +78,10 @@ public class CompanyService {
             throw new NotFoundException("Company with VAT number: " + vatNumber + " was not found");
         }
         return company;
+    }
+
+    public List<Company> getCompaniesByTitleContains(String keyword) {
+        return companyRepository.findCompaniesByTitleContains(keyword);
     }
 
     public List<Company> getAllCompanies() {

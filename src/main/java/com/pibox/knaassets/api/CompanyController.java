@@ -53,10 +53,19 @@ public class CompanyController {
             companyDto = companyMapper.toCompanyDto(companyService.getCompanyByVatNumber(vatNumber));
             return new ResponseEntity<>(companyDto, HttpStatus.OK);
         } else {
-            List<CompanyDto> companyDtoList = companyService.getAllCompanies().stream()
-                    .map(companyMapper::toCompanyDto).collect(Collectors.toList());
-            return new ResponseEntity<>(companyDtoList, HttpStatus.OK);
+            List<CompanyMiniDto> companyMiniDtoList = companyService.getAllCompanies().stream()
+                    .map(companyMapper::toCompanyMiniDto)
+                    .collect(Collectors.toList());
+            return new ResponseEntity<>(companyMiniDtoList, HttpStatus.OK);
         }
+    }
+
+    @GetMapping("/{keyword}")
+    public ResponseEntity<List<CompanyMiniDto>> getCompaniesByTitleContains(@PathVariable String keyword) {
+        List<CompanyMiniDto> companyMiniDtoList = companyService.getCompaniesByTitleContains(keyword).stream()
+                .map(companyMapper::toCompanyMiniDto)
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(companyMiniDtoList, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

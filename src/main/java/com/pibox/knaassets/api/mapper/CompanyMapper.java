@@ -12,4 +12,6 @@ public interface CompanyMapper {
     Company toCompany(CompanyMiniDto companyMiniDto);
 
     CompanyDto toCompanyDto(Company company);
+
+    CompanyMiniDto toCompanyMiniDto(Company company);
 }

@@ -15,6 +15,9 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -56,6 +59,8 @@ class CompanyServiceTest {
     void canAddCompany() throws ExistException {
 
         Company company = companyMapper.toCompany(companyDto);
+        when(companyRepository.save(any(Company.class))).thenReturn(company);
+
         companyService.addCompany(company);
         ArgumentCaptor<Company> companyArgumentCaptor = ArgumentCaptor.forClass(Company.class);
         verify(companyRepository).save(companyArgumentCaptor.capture());
@@ -65,6 +70,7 @@ class CompanyServiceTest {
                 .usingRecursiveComparison()
                 .ignoringFields("createdAt")
                 .isEqualTo(company);
+        assertThat(capturedCompany.getCreatedAt()).isNotNull();
     }
 
     @Test
@@ -86,9 +92,10 @@ class CompanyServiceTest {
         Company company = companyMapper.toCompany(companyDto);
         given(companyRepository.findCompanyById(anyLong())).willReturn(company);
 
-        companyService.getCompanyById(1L);
+        Company expectedCompany = companyService.getCompanyById(1L);
 
         verify(companyRepository).findCompanyById(1L);
+        assertThat(expectedCompany).isEqualTo(company);
     }
 
     @Test
@@ -107,9 +114,10 @@ class CompanyServiceTest {
         Company company = companyMapper.toCompany(companyDto);
         given(companyRepository.findCompanyByVatNumber(anyString())).willReturn(company);
 
-        companyService.getCompanyByVatNumber("EE12345678");
+        Company expectedCompany = companyService.getCompanyByVatNumber("EE12345678");
 
         verify(companyRepository).findCompanyByVatNumber("EE12345678");
+        assertThat(expectedCompany).isEqualTo(company);
     }
 
     @Test
@@ -128,5 +136,20 @@ class CompanyServiceTest {
         companyService.getAllCompanies();
 
         verify(companyRepository).findAll();
+    }
+
+    @Test
+    void canGetCompaniesByTitleContains() {
+
+        Company company = companyMapper.toCompany(companyDto);
+        List<Company> companyList = new ArrayList<>();
+        companyList.add(company);
+        when(companyRepository.findCompaniesByTitleContains(anyString())).thenReturn(companyList);
+
+        List<Company> expectedCompanyList = companyService.getCompaniesByTitleContains("pibox");
+
+        verify(companyRepository).findCompaniesByTitleContains("pibox");
+        assertThat(expectedCompanyList.size()).isEqualTo(1);
+        assertThat(expectedCompanyList.get(0)).isEqualTo(company);
     }
 }
